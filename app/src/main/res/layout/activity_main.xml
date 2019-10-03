@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,6 +26,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <objectAnimator
+                android:duration="1000"
+                android:repeatCount="1"
+                android:repeatMode="reverse">
+                <propertyValuesHolder android:propertyName="x" android:valueTo="400"/>
+                <propertyValuesHolder android:propertyName="y" android:valueTo="200"/>
+            </objectAnimator>
 
             <Button
                 android:id="@+id/startButton"
@@ -34,6 +43,7 @@
                 android:paddingTop="2dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="2dp"
+                android:text="Start"
                 android:textAllCaps="false" />
 
             <TextView
@@ -48,9 +58,12 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/bouncingBoy"
+            android:id="@+id/goon"
             android:layout_width="166dp"
             android:layout_height="107dp"
             android:src="@drawable/pig" />
+
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
