@@ -8,15 +8,7 @@ import android.widget.ImageButton;
 public class Movement extends View {
 
     public static void main(String args[]){
-        if(goon.getX() + 350 >= x + 1000 || goon.getX() - x < 0){
-            x = x * -1;
-        }
-        if(goon.getY() + 250 >= y + 1000 || goon.getY() - y < 0){
-            y = y * -1;
-        }
 
-        goon.setX(goon.getX()+x);
-        goon.setY(goon.getY()+y);
     }
 
     public Movement(Context context) {
