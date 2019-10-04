@@ -16,6 +16,8 @@ import java.util.*;
 import java.util.Timer;
 //import java.util.Timer.scheduleAtFixedRate;
 import java.util.TimerTask;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import android.os.Bundle;
 
@@ -28,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
 //    // scheduling the task at fixed rate delay
 //      timer.scheduleAtFixedRate(tasknew,500,1000);
 
+    double xD = (Math.random()*2)+0.1;
+    double yD = (Math.random()*2)+0.1;
+    float x = (float) xD;
+    float y = (float) yD;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,25 +45,20 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double xD = (Math.random()*2)+0.1;
-                double yD = (Math.random()*2)+0.1;
-                float x = (float) xD;
-                float y = (float) yD;
+
                 int time = 0;
 
-                goon.setX(goon.getX()+x);
-                goon.setY(goon.getY()+y);
+                ScheduledExecutorService executorService = MainActivity.delay();
 
-                while(time < 3000){
+                while(time < 6000){
                 //while(goon.getX() <= x + 1000 && goon.getX() - x >= 0 && goon.getY() <= y + 2000 && goon.getY() - y >= 0){
-                    if(goon.getX() >= x + 1000 || goon.getX() - x <= 0){
-                        x = x * -1;
-                    }
-                    if(goon.getY() >= y + 1000 || goon.getY() - y <= 0){
-                        y = y * -1;
-                    }
-                    goon.setX(goon.getX()+x);
-                    goon.setY(goon.getY()+y);
+
+
+
+
+                    executorService.schedule(Movement.move(x, y, goon), (long) 100, MILLISECONDS)
+                    //(Movement.move(x, y, goon), (long) 100, MILLISECONDS)
+
 //                    MainActivity.this.sleep();
 //                    ObjectAnimator animation = ObjectAnimator.ofFloat(goon, "translationX", 100f);
 //                    animation.setDuration(1000);
@@ -66,8 +68,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public void move(){
+    public static java.util.concurrent.ScheduledExecutorService delay(){
 
     }
+
+
 }
 

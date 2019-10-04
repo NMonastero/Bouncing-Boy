@@ -7,27 +7,33 @@ import android.widget.ImageButton;
 
 public class Movement extends View {
 
+    public static void main(String args[]){
+        if(goon.getX() + 350 >= x + 1000 || goon.getX() - x < 0){
+            x = x * -1;
+        }
+        if(goon.getY() + 250 >= y + 1000 || goon.getY() - y < 0){
+            y = y * -1;
+        }
+
+        goon.setX(goon.getX()+x);
+        goon.setY(goon.getY()+y);
+    }
+
     public Movement(Context context) {
         super(context, null);
     }
 
-    public void startMove(ImageButton b) {
-        double xD = (Math.random()*2)+0.1;
-        double yD = (Math.random()*2)+0.1;
-        float x = (float) xD;
-        float y = (float) yD;
-        int time = 0;
-
-        while(b.getX() <= x + 1000 && b.getX() - x >= 0 && b.getY() <= y + 2000 && b.getY() - y >= 0){
-            b.setX(b.getX()+x);
-            b.setY(b.getY()+y);
-            ObjectAnimator animation = ObjectAnimator.ofFloat(b, "translationX", 100f);
-            animation.setDuration(1000);
-            animation.start();
-            if(time == 3000){
-                break;
-            }
-            time++;
+    public static double move(float x, float y, ImageButton goon){
+        if(goon.getX() + 350 >= x + 1000 || goon.getX() - x < 0){
+            x = x * -1;
         }
+        if(goon.getY() + 250 >= y + 1000 || goon.getY() - y < 0){
+            y = y * -1;
+        }
+
+        goon.setX(goon.getX()+x);
+        goon.setY(goon.getY()+y);
+
+        return 0;
     }
 }
