@@ -35,14 +35,15 @@
                 android:paddingTop="2dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="2dp"
-                android:text="Start"
+                android:text="Reset"
                 android:textAllCaps="false" />
 
             <TextView
+                android:id="@+id/scoreboard"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Score:"
+                android:text="Score: \nHighscore:"
                 android:textAllCaps="false"
 
                 />
@@ -51,8 +52,8 @@
 
         <ImageButton
             android:id="@+id/goon"
-            android:layout_width="166dp"
-            android:layout_height="107dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/pig" />
 
 
