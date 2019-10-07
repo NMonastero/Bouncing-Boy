@@ -35,8 +35,18 @@
                 android:paddingTop="2dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="2dp"
-                android:text="Reset"
+                android:text="Start"
                 android:textAllCaps="false" />
+
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Time Remaining:"
+                android:textAllCaps="false"
+
+                />
 
             <TextView
                 android:id="@+id/scoreboard"

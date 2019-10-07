@@ -25,51 +25,46 @@ import java.util.concurrent.TimeUnit;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements Runnable {
 
     int score = 0;
     int highscore = 0;
+    int time = 60;
 
-//    // creating timer task, timer
-//    TimerTask tasknew = new TimerScheduleFixedRateDelay();
-//    Timer timer = new Timer();
-//
-//    // scheduling the task at fixed rate delay
-//      timer.scheduleAtFixedRate(tasknew,500,1000);
+    void startTimer() {
+        Executors.newSingleThreadScheduledExecutor().schedule(runnable, 0, TimeUnit.SECONDS);
+    }
 
-//    public static void create() {
-//        double xD = (Math.random() * 2) + 0.1;
-//        double yD = (Math.random() * 2) + 0.1;
-//        float x = (float) xD;
-//        float y = (float) yD;
-//        move(x, y, goon);
-//    }
-//
-//    @Override
-//    public static void run(){
-//        create();
-//    }
+    @Override
+    public void run(){
+        System.out.println("Why is this called?");
+    }
 
-//    public static void move(float x, float y){
-//        if(goon.getX() + 350 >= x + 1000 || goon.getX() - x < 0){
-//            x = x * -1;
-//        }
-//        if(goon.getY() + 250 >= y + 1000 || goon.getY() - y < 0){
-//            y = y * -1;
-//        }
-//
-//        goon.setX(goon.getX()+x);
-//        goon.setY(goon.getY()+y);
-//    }
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            time--;
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        Timer t= new Timer();
         final TextView scoreboard = findViewById(R.id.scoreboard);
         final Button startButton = findViewById(R.id.startButton);
         final ImageButton goon = findViewById(R.id.goon);
+        final TextView timer = findViewById(R.id.timer);
+
+//        @Override
+//        public void run(){
+//            System.out.println("Why is this called?");
+//        }
+
+
 
 //        goon.setX(goon.getX()+x);
 //        goon.setY(goon.getY()+y);
@@ -79,37 +74,30 @@ public class MainActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 score = 0;
                 scoreboard.setText("Score: " + score +"\nHighscore: " + highscore);
+                time = 60;
+                startTimer();
+                timer.setText("Time Remaining: " + time);
             }
         });
 
         goon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                score++;
-                if(score > highscore){
-                    highscore = score;
-                }
-                scoreboard.setText("Score: " + score +"\nHighscore: " + highscore);
-                int time = 0;
+                if(time > 0) {
+                    score++;
+                    if (score > highscore) {
+                        highscore = score;
+                    }
+                    scoreboard.setText("Score: " + score + "\nHighscore: " + highscore);
 
-                double xD = (Math.random() * 950) + 0;
-                double yD = (Math.random() * 1350) + 100;
-                float x = (float) xD;
-                float y = (float) yD;
-
-
-//                    if(goon.getX() + 350 >= x + 1000 || goon.getX() - x < 0){
-//                        x = x * -1;
-//                    }
-//                    if(goon.getY() + 250 >= y + 1000 || goon.getY() - y < 0){
-//                        y = y * -1;
-//                    }
+                    double xD = (Math.random() * 950) + 0;
+                    double yD = (Math.random() * 1350) + 100;
+                    float x = (float) xD;
+                    float y = (float) yD;
 
                     goon.setX(x);
                     goon.setY(y);
-                    time++;
-
-                time = 0;
+                }
             }
         });
     }
