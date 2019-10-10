@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     int score = 0;
     int highscore = 0;
     int time = 60;
+    Movement move;
 
     void startTimer() {
         Executors.newSingleThreadScheduledExecutor().schedule(runnable, 0, TimeUnit.SECONDS);
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements Runnable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        move = new Movement(this);
 
 //        Timer t= new Timer();
         final TextView scoreboard = findViewById(R.id.scoreboard);
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements Runnable {
                 time = 60;
                 startTimer();
                 timer.setText("Time Remaining: " + time);
+                setContentView(move);
             }
         });
 
