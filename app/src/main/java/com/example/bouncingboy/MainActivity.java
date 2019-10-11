@@ -56,21 +56,10 @@ public class MainActivity extends AppCompatActivity implements Runnable {
 
         move = new Movement(this);
 
-//        Timer t= new Timer();
         final TextView scoreboard = findViewById(R.id.scoreboard);
         final Button startButton = findViewById(R.id.startButton);
         final ImageButton goon = findViewById(R.id.goon);
         final TextView timer = findViewById(R.id.timer);
-
-//        @Override
-//        public void run(){
-//            System.out.println("Why is this called?");
-//        }
-
-
-
-//        goon.setX(goon.getX()+x);
-//        goon.setY(goon.getY()+y);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
