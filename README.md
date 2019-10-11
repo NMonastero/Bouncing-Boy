@@ -11,3 +11,4 @@ Added a TextView to display the score
 10/7:The timer is giving me a bit of trouble but I've been given a hint to check out 'csterdroids' on Prof Madden's github so we'll see how that works out
 10:9:Getting the surface going using code from my last app (widget for you) and some of Professor Madden's Asteroids project
 10/10:Working on the canvas is causing signifigantly more issues than first anticipated. I might have to just reuse some code from my last project to get it working (It's just showing a black screen). I might also have to change the image button to a drawable bitmap for the image to apear.
+10/11:After some signifigant trial and error, I have determined that the canvas is acting extremely weird. I will pick apart this bug using Widget for You (my previous app that extensively used the canvas) in order to solve the problem. I believe I have a very good understanding of how to animate a bitmap but the canvas is just stubborn
