@@ -25,75 +25,89 @@ import java.util.concurrent.TimeUnit;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity implements Runnable {
+public class MainActivity extends AppCompatActivity{
 
-    int score = 0;
-    int highscore = 0;
-    int time = 60;
-    Movement move;
-
-    void startTimer() {
-        Executors.newSingleThreadScheduledExecutor().schedule(runnable, 0, TimeUnit.SECONDS);
-    }
-
-    @Override
-    public void run(){
-        System.out.println("Why is this called?");
-    }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            time--;
-
-        }
-    };
+    Movement movement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        move = new Movement(this);
-
         final TextView scoreboard = findViewById(R.id.scoreboard);
         final Button startButton = findViewById(R.id.startButton);
         final ImageButton goon = findViewById(R.id.goon);
         final TextView timer = findViewById(R.id.timer);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                score = 0;
-                scoreboard.setText("Score: " + score +"\nHighscore: " + highscore);
-                time = 60;
-                startTimer();
-                timer.setText("Time Remaining: " + time);
-                setContentView(move);
-            }
-        });
-
-        goon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(time > 0) {
-                    score++;
-                    if (score > highscore) {
-                        highscore = score;
-                    }
-                    scoreboard.setText("Score: " + score + "\nHighscore: " + highscore);
-
-                    double xD = (Math.random() * 950) + 0;
-                    double yD = (Math.random() * 1350) + 100;
-                    float x = (float) xD;
-                    float y = (float) yD;
-
-                    goon.setX(x);
-                    goon.setY(y);
-                }
-            }
-        });
+//        movement = new Movement(this);
+//        setContentView(movement);
+//        movement.run();
     }
+
+//    int score = 0;
+//    int highscore = 0;
+//    int time = 60;
+//    Movement customSurfaceView = null;
+//
+//    void startTimer() {
+//        Executors.newSingleThreadScheduledExecutor().schedule(runnable, 0, TimeUnit.SECONDS);
+//    }
+//
+//    @Override
+//    public void run(){
+//        System.out.println("Why is this called?");
+//    }
+//
+//    Runnable runnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            time--;
+//
+//        }
+//    };
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//
+//        final TextView scoreboard = findViewById(R.id.scoreboard);
+//        final Button startButton = findViewById(R.id.startButton);
+//        final ImageButton goon = findViewById(R.id.goon);
+//        final TextView timer = findViewById(R.id.timer);
+//
+//        startButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                score = 0;
+//                scoreboard.setText("Score: " + score +"\nHighscore: " + highscore);
+//                time = 60;
+//                startTimer();
+//                timer.setText("Time Remaining: " + time);
+//                customSurfaceView.run();
+//            }
+//        });
+//
+//        goon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(time > 0) {
+//                    score++;
+//                    if (score > highscore) {
+//                        highscore = score;
+//                    }
+//                    scoreboard.setText("Score: " + score + "\nHighscore: " + highscore);
+//
+//                    double xD = (Math.random() * 950) + 0;
+//                    double yD = (Math.random() * 1350) + 100;
+//                    float x = (float) xD;
+//                    float y = (float) yD;
+//
+//                    goon.setX(x);
+//                    goon.setY(y);
+//                }
+//            }
+//        });
+//    }
 
 }
 
