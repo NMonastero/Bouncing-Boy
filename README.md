@@ -10,3 +10,4 @@ Added a TextView to display the score
 10/6:It might not fit the original idea exactly but it is very close. Dynamic animation is apparently hard? Idk, I need more time to get it working. I will add a timer if I can figure it out
 10/7:The timer is giving me a bit of trouble but I've been given a hint to check out 'csterdroids' on Prof Madden's github so we'll see how that works out
 10:9:Getting the surface going using code from my last app (widget for you) and some of Professor Madden's Asteroids project
+10/10:Working on the canvas is causing signifigantly more issues than first anticipated. I might have to just reuse some code from my last project to get it working (It's just showing a black screen). I might also have to change the image button to a drawable bitmap for the image to apear.
