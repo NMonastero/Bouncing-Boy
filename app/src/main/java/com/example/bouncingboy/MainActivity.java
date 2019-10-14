@@ -2,6 +2,7 @@ package com.example.bouncingboy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Paint;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -22,26 +23,242 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+
+import java.util.Random;
+
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
-    Movement movement;
+    AsteroidView asteroidView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView scoreboard = findViewById(R.id.scoreboard);
-        final Button startButton = findViewById(R.id.startButton);
-        final ImageButton goon = findViewById(R.id.goon);
-        final TextView timer = findViewById(R.id.timer);
 
-//        movement = new Movement(this);
-//        setContentView(movement);
-//        movement.run();
+        asteroidView = new AsteroidView(this);
+        setContentView(asteroidView);
     }
+
+    class AsteroidView extends SurfaceView implements Runnable {
+        Thread gameThread = null;
+        SurfaceHolder ourHolder;
+        volatile boolean playing;
+        boolean paused = false;
+        boolean bump = false;
+        Canvas canvas;
+        Paint paint;
+        int y;
+        int posx, posy;
+        int dx, dy;
+        int height, width;
+        boulder[] b;
+        paddle p;
+
+
+        private long thisTimeFrame;
+        public AsteroidView(Context context) {
+            super(context);
+
+            ourHolder = getHolder();
+            paint = new Paint();
+        }
+
+        @Override
+        public void run() {
+            Random r = new Random();
+
+            p = new paddle();
+            p.padx =500;
+            p.pady = 1000;
+            p.paddx = 20;
+            p.paddy = 0;
+
+            b = new boulder[1];
+            posx = 50;
+            posy = 50;
+            dx = 20;
+            dy = 45;
+
+            b[0] = new boulder();
+//            b[0].x = r.nextInt(150)-50;
+//            b[0].y = r.nextInt(150)-50;
+//            b[0].dx = r.nextInt(150)-50;
+//            b[0].dy = r.nextInt(150)-50;
+            b[0].x = 100;
+            b[0].y = 100;
+            b[0].dx = 100;
+            b[0].dy = 100;
+            b[0].diameter = 95;
+//            for (int i = 0; i < 1; ++i) {
+//                b[i] = new boulder();
+//                b[i].x = r.nextInt(50);
+//                b[i].y = r.nextInt(50);
+//                b[i].dx = r.nextInt(30) - 15;
+//                b[i].dy = r.nextInt(30) - 15;
+//                b[i].diameter = 95;
+//            }
+
+
+            while (playing)
+            {
+                if (!paused) {
+                    update();
+                }
+                draw();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+
+                }
+            }
+        }
+        public void update() {
+            y = y + 5;
+            if (y > 200)
+                y = 5;
+
+            posx += dx;
+            posy += dy;
+            if ((posx > width) || (posx < 0))
+                dx = -dx;
+            if ((posy > height) || (posy < 0))
+                dy = -dy;
+//            if((posy) < 800)
+//                dy = -dy;
+
+            //&& (posx + b[0].diameter > p.x) && (posx + b[0].diameter < p.x + 300
+
+            if(bump == true){
+                p.update();
+            }
+
+            //for (int i = 0; i < 5; ++i)
+                b[0].update();
+
+
+        }
+        public void draw() {
+            if (ourHolder.getSurface().isValid()) {
+                // Lock the canvas ready to draw
+                canvas = ourHolder.lockCanvas();
+
+                width = canvas.getWidth();
+                height = canvas.getHeight();
+
+                // Draw the background color
+                canvas.drawColor(Color.argb(255, 26, 128, 182));
+
+                // Choose the brush color for drawing
+                paint.setColor(Color.argb(255, 255, 255, 255));
+//                canvas.drawLine(0, 0, 300, y, paint);
+
+
+                // canvas.drawCircle(posx, posy, 30l, paint);
+                //for (int i = 0; i < 5; ++i) {
+                    b[0].width = width;
+                    b[0].height = height;
+                    b[0].draw(canvas, paint);
+                //}
+
+                // drawing the paddle
+                p.draw(canvas, paint);
+
+                ourHolder.unlockCanvasAndPost(canvas);
+            }
+        }
+
+        public void pause() {
+            playing = false;
+            try {
+                gameThread.join();
+            } catch (InterruptedException e) {
+                Log.e("Error:", "joining thread");
+            }
+
+        }
+
+        public void resume() {
+            playing = true;
+            gameThread = new Thread(this);
+            gameThread.start();
+        }
+
+        public void bumpOn(){
+
+        }
+
+
+        @Override
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+            if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN)
+                paused = !paused;
+            return true;
+        }
+
+//        @Override
+//        public boolean onTouchEvent(MotionEvent motionEvent){
+//            if(motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN)
+//                bump = !bump;
+//            if(motionEvent.getAction() == android.view.MotionEvent.ACTION_UP)
+//                bump = !bump;
+//            return true;
+//        }
+
+    }
+
+
+    // This method executes when the player starts the game
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Tell the gameView resume method to execute
+        asteroidView.resume();
+    }
+
+    // This method executes when the player quits the game
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // Tell the gameView pause method to execute
+        asteroidView.pause();
+    }
+
+}
+
+//public class MainActivity extends AppCompatActivity{
+//
+//    Movement movement = null;
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//        final TextView scoreboard = findViewById(R.id.scoreboard);
+//        final Button startButton = findViewById(R.id.startButton);
+//        final ImageButton goon = findViewById(R.id.goon);
+//        final TextView timer = findViewById(R.id.timer);
+//
+//        Paint paint = new Paint();
+//        movement.setPaint(paint);
+//        //customSurfaceView.drawBall();
+//        movement.test();
+//
+////        movement = new Movement(this);
+////        setContentView(movement);
+////        movement.run();
+//    }
 
 //    int score = 0;
 //    int highscore = 0;
@@ -109,5 +326,5 @@ public class MainActivity extends AppCompatActivity{
 //        });
 //    }
 
-}
+//}
 

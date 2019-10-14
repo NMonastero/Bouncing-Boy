@@ -13,14 +13,19 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
+import static android.graphics.Color.BLUE;
 
 public class Movement extends SurfaceView implements Runnable {
 
     Thread gameThread = null;
     SurfaceHolder ourHolder;
+    private SurfaceHolder surfaceHolder = null;
     volatile boolean playing;
     boolean paused = true;
     Canvas canvas;
@@ -31,12 +36,37 @@ public class Movement extends SurfaceView implements Runnable {
     int height, width;
     boulder[] b;
 
+    public void setPaint(Paint paint) {
+        this.paint = paint;
+    }
+
     private long thisTimeFrame;
     public Movement(Context context) {
         super(context);
 
         ourHolder = getHolder();
         paint = new Paint();
+    }
+
+    public void test(){
+        Canvas canvas = surfaceHolder.lockCanvas();
+
+        Paint surfaceBackground = new Paint();
+        // Set the surfaceview background color.
+        surfaceBackground.setColor(RED);
+        // Draw the surfaceview background color.
+        canvas.drawRect(0, 0, this.getWidth(), this.getHeight(), surfaceBackground);
+        //canvas.drawRect(0, 2000, this.getWidth(), 615, paint);
+
+        paint.setColor(GREEN);
+        canvas.drawCircle(700, 700, 200, paint);
+
+        paint.setColor(BLUE);
+        canvas.drawRect(0,2000,this.getWidth(),1300, paint);
+
+
+
+        surfaceHolder.unlockCanvasAndPost(canvas);
     }
 
     @Override
@@ -99,12 +129,18 @@ public class Movement extends SurfaceView implements Runnable {
             // Draw the background color
             canvas.drawColor(Color.argb(255, 26, 128, 182));
 
+            TextView scoreboard = findViewById(R.id.scoreboard);
+            Button startButton = findViewById(R.id.startButton);
+            ImageButton goon = findViewById(R.id.goon);
+            TextView timer = findViewById(R.id.timer);
+
             paint.setColor(GREEN);
             canvas.drawRect(0,0, this.getWidth(), this.getHeight(), surfaceBackground);
 
             // Choose the brush color for drawing
-            paint.setColor(Color.argb(255, 255, 255, 255));
-            canvas.drawLine(0, 0, 300, y, paint);
+//            paint.setColor(Color.argb(255, 255, 255, 255));
+//            canvas.drawLine(0, 0, 300, y, paint);
+
 
 
              canvas.drawCircle(posx, posy, 30l, paint);
