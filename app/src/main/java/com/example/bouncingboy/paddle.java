@@ -4,17 +4,17 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 public class paddle {
-    float padx, pady, paddx, paddy;
+    float x, y, dx, dy;
     float width, height;
 
     public void update()
     {
-        padx += paddx;
-        pady += paddy;
-        if (padx < 0) paddx = -paddx;
-        if (pady < 0) paddy = -paddy;
-        if (padx > width) paddx = -paddx;
-        if (pady > height) paddy = -paddy;
+        x += dx;
+        //y += dy;
+        if (x < 5) dx = -dx;
+        //if (y < 0) dy = -dy;
+        if (x + 250 > width) dx = -dx;
+       // if (y > height) dy = -dy;
     }
 
     float getWidth(){
@@ -27,6 +27,6 @@ public class paddle {
 
     public void draw(Canvas canvas, Paint paint)
     {
-        canvas.drawRect(padx,pady,padx+300,pady+30,paint);
+        canvas.drawRect(x,y,x+250,y+30,paint);
     }
 }

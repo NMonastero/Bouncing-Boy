@@ -78,16 +78,12 @@ public class MainActivity extends AppCompatActivity {
             Random r = new Random();
 
             p = new paddle();
-            p.padx =500;
-            p.pady = 1000;
-            p.paddx = 20;
-            p.paddy = 0;
+            p.x =500;
+            p.y = 1250;
+            p.dx = 50;
+            p.dy = 0;
 
             b = new boulder[1];
-            posx = 50;
-            posy = 50;
-            dx = 20;
-            dy = 45;
 
             b[0] = new boulder();
 //            b[0].x = r.nextInt(150)-50;
@@ -95,9 +91,9 @@ public class MainActivity extends AppCompatActivity {
 //            b[0].dx = r.nextInt(150)-50;
 //            b[0].dy = r.nextInt(150)-50;
             b[0].x = 100;
-            b[0].y = 100;
-            b[0].dx = 100;
-            b[0].dy = 100;
+            b[0].y = 80;
+            b[0].dx = 75;
+            b[0].dy = 45;
             b[0].diameter = 95;
 //            for (int i = 0; i < 1; ++i) {
 //                b[i] = new boulder();
@@ -129,10 +125,10 @@ public class MainActivity extends AppCompatActivity {
 
             posx += dx;
             posy += dy;
-            if ((posx > width) || (posx < 0))
-                dx = -dx;
-            if ((posy > height) || (posy < 0))
-                dy = -dy;
+//            if ((posx > width) || (posx < 0))
+//                dx = -dx;
+//            if ((posy > height) || (posy < 800))
+//                dy = -dy;
 //            if((posy) < 800)
 //                dy = -dy;
 
@@ -141,6 +137,16 @@ public class MainActivity extends AppCompatActivity {
             if(bump == true){
                 p.update();
             }
+
+            if(b[0].y+b[0].diameter >= p.y && b[0].y+b[0].diameter <= p.y+30){
+                if(b[0].x + 95 >= p.x  && b[0].x + 100 <= p.x + 500){
+                    b[0].dy = -b[0].dy;
+                }
+            }
+
+//            if(b[0].y > 1250){
+//                paused = !paused;
+//            }
 
             //for (int i = 0; i < 5; ++i)
                 b[0].update();
@@ -171,7 +177,10 @@ public class MainActivity extends AppCompatActivity {
                 //}
 
                 // drawing the paddle
+                p.width = width;
+                p.height = height;
                 p.draw(canvas, paint);
+
 
                 ourHolder.unlockCanvasAndPost(canvas);
             }
@@ -193,26 +202,26 @@ public class MainActivity extends AppCompatActivity {
             gameThread.start();
         }
 
-        public void bumpOn(){
-
-        }
-
-
-        @Override
-        public boolean onTouchEvent(MotionEvent motionEvent) {
-            if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN)
-                paused = !paused;
-            return true;
-        }
-
 //        @Override
-//        public boolean onTouchEvent(MotionEvent motionEvent){
-//            if(motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN)
-//                bump = !bump;
-//            if(motionEvent.getAction() == android.view.MotionEvent.ACTION_UP)
-//                bump = !bump;
+//        public boolean onTouchEvent(MotionEvent motionEvent) {
+//            if (motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN)
+//                paused = !paused;
 //            return true;
 //        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent motionEvent){
+            int x = (int)motionEvent.getX();
+            if(motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+                if(x < 500 && p.dx > 0 || x >= 500 && p.dx < 0){
+                    p.dx = -p.dx;
+                }
+                bump = !bump;
+            }
+            if(motionEvent.getAction() == android.view.MotionEvent.ACTION_UP)
+                bump = !bump;
+            return true;
+        }
 
     }
 
