@@ -139,13 +139,14 @@ public class MainActivity extends AppCompatActivity {
                 p.update();
             }
 
+            int inc = 3;
             if(b[0].y+b[0].diameter >= p.y && b[0].y+b[0].diameter <= p.y+30){
                 if(b[0].x + 95 >= p.x  && b[0].x + 100 <= p.x + 500){
                     if(b[0].dx > 0) {
-                        b[0].dx++;
+                        b[0].dx += inc;
                     }
                     if(b[0].dx < 0) {
-                        b[0].dx++;
+                        b[0].dx -= inc;
                     }
                     b[0].dy = -b[0].dy;
                     score++;
