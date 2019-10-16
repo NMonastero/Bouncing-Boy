@@ -17,3 +17,5 @@ Added a TextView to display the score
 Added paddle hitbox for the ball to bounce off of 
 10/16 FINAL UPDATE: Added scoreboard. Added reset button.
 Added increasing difficulty and color changing boy
+PATCHES
+1.1 10/16:Fixed the ball not increasing speed
