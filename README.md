@@ -14,4 +14,6 @@ Added a TextView to display the score
 10/11:After some signifigant trial and error, I have determined that the canvas is acting extremely weird. I will pick apart this bug using Widget for You (my previous app that extensively used the canvas) in order to solve the problem. I believe I have a very good understanding of how to animate a bitmap but the canvas is just stubborn
 10/14:The paddle still needs a hitbox but other than that, it's coming along well
 10/15:Added paddle controls (left side of the screen moves left and right side of the screen moves right)
-Added paddle hitbox for the ball to bounce off of
+Added paddle hitbox for the ball to bounce off of 
+10/16 FINAL UPDATE: Added scoreboard. Added reset button.
+Added increasing difficulty and color changing boy
