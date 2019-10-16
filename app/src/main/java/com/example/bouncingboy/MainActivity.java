@@ -39,6 +39,7 @@ import android.os.Bundle;
 public class MainActivity extends AppCompatActivity {
 
     AsteroidView asteroidView;
+    int score, highScore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 //            b[0].dy = r.nextInt(150)-50;
             b[0].x = 100;
             b[0].y = 80;
-            b[0].dx = 75;
+            b[0].dx = 50;
             b[0].dy = 45;
             b[0].diameter = 95;
 //            for (int i = 0; i < 1; ++i) {
@@ -140,13 +141,23 @@ public class MainActivity extends AppCompatActivity {
 
             if(b[0].y+b[0].diameter >= p.y && b[0].y+b[0].diameter <= p.y+30){
                 if(b[0].x + 95 >= p.x  && b[0].x + 100 <= p.x + 500){
+                    if(b[0].dx > 0) {
+                        b[0].dx++;
+                    }
+                    if(b[0].dx < 0) {
+                        b[0].dx++;
+                    }
                     b[0].dy = -b[0].dy;
+                    score++;
+                    if(score > highScore){
+                        highScore++;
+                    }
                 }
             }
 
-//            if(b[0].y > 1250){
-//                paused = !paused;
-//            }
+            if(b[0].y > 1250){
+                paused = !paused;
+            }
 
             //for (int i = 0; i < 5; ++i)
                 b[0].update();
@@ -162,24 +173,37 @@ public class MainActivity extends AppCompatActivity {
                 height = canvas.getHeight();
 
                 // Draw the background color
-                canvas.drawColor(Color.argb(255, 26, 128, 182));
+                canvas.drawColor(Color.argb(255, 26, 80, 182));
 
                 // Choose the brush color for drawing
-                paint.setColor(Color.argb(255, 255, 255, 255));
-//                canvas.drawLine(0, 0, 300, y, paint);
+                if(score < 15)
+                    paint.setColor(Color.argb(255, 00, 255, 80));
+                else if(score >= 15 && score < 30)
+                    paint.setColor(Color.argb(255, 255, 255, 00));
+                else if(score >= 30 && score < 45)
+                    paint.setColor(Color.argb(255, 255, 170, 00));
+                else
+                    paint.setColor(Color.argb(255, 255, 00, 00));
 
-
-                // canvas.drawCircle(posx, posy, 30l, paint);
-                //for (int i = 0; i < 5; ++i) {
                     b[0].width = width;
                     b[0].height = height;
                     b[0].draw(canvas, paint);
-                //}
 
                 // drawing the paddle
+                paint.setColor(Color.argb(255, 255, 255, 255));
                 p.width = width;
                 p.height = height;
                 p.draw(canvas, paint);
+
+                paint.setTextSize(50f);
+                canvas.drawText("Score: " + score +" HighScore: " + highScore, 0, 80, paint);
+
+                if(paused){
+                    paint.setTextSize(100f);
+                    canvas.drawText("GAME OVER", 300, 500, paint);
+                    paint.setTextSize(80f);
+                    canvas.drawText("TRY AGAIN?", 350, 700, paint);
+                }
 
 
                 ourHolder.unlockCanvasAndPost(canvas);
@@ -212,11 +236,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent){
             int x = (int)motionEvent.getX();
+            int y = (int)motionEvent.getY();
             if(motionEvent.getAction() == android.view.MotionEvent.ACTION_DOWN) {
                 if(x < 500 && p.dx > 0 || x >= 500 && p.dx < 0){
                     p.dx = -p.dx;
                 }
                 bump = !bump;
+            }
+            if(paused){
+                if(x <= 800 && x >= 350 && y >= 650 && y <= 700) {
+                    score = 0;
+                    b[0].x = 100;
+                    b[0].y = 80;
+                    b[0].dx = 50;
+                    paused = !paused;
+                }
             }
             if(motionEvent.getAction() == android.view.MotionEvent.ACTION_UP)
                 bump = !bump;
